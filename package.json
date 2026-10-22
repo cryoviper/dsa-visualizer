@@ -1,0 +1,11 @@
+{
+  "name": "dsa-visualizer",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Interactive sorting and pathfinding visualizer. No build step; tests use node:test.",
+  "type": "module",
+  "scripts": {
+    "start": "npx serve .",
+    "test": "node --test test/*.test.js"
+  }
+}
