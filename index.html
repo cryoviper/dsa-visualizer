@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Algo Lab · DSA Visualizer</title>
+  <meta name="description" content="Watch sorting and pathfinding algorithms run step by step: bubble, merge, quick, heap sort, BFS, DFS, Dijkstra and A*.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2318181B'/%3E%3Crect x='7' y='16' width='4' height='9' rx='1' fill='%23E9E6DF'/%3E%3Crect x='14' y='9' width='4' height='16' rx='1' fill='%23F2B33D'/%3E%3Crect x='21' y='13' width='4' height='12' rx='1' fill='%23E9E6DF'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <div class="brand"><span class="logo" aria-hidden="true"><i></i><i></i><i></i></span>Algo Lab</div>
+    <div class="tabs" role="tablist" aria-label="Mode">
+      <button role="tab" id="tab-sort" aria-controls="panel-sort" aria-selected="true">Sorting</button>
+      <button role="tab" id="tab-path" aria-controls="panel-path" aria-selected="false">Pathfinding</button>
+    </div>
+    <a class="gh" href="https://github.com/cryoviper/dsa-visualizer" target="_blank" rel="noopener">Source</a>
+  </header>
+
+  <!-- SORTING -->
+  <main id="panel-sort" role="tabpanel" aria-labelledby="tab-sort" class="panel">
+    <div class="controls">
+      <label class="ctl"><span>Algorithm</span><select id="sAlgo"></select></label>
+      <label class="ctl"><span>Data</span>
+        <select id="sPreset">
+          <option value="random">Random</option>
+          <option value="nearly">Nearly sorted</option>
+          <option value="reversed">Reversed</option>
+          <option value="few">Few unique</option>
+        </select>
+      </label>
+      <label class="ctl range"><span>Size <b id="sSizeVal">48</b></span><input id="sSize" type="range" min="8" max="120" value="48"></label>
+      <label class="ctl range"><span>Speed</span><input id="sSpeed" type="range" min="1" max="100" value="60"></label>
+      <div class="btns">
+        <button class="btn" id="sShuffle" type="button">New data</button>
+        <button class="btn" id="sStep" type="button" title="One step">Step</button>
+        <button class="btn primary" id="sPlay" type="button">Play</button>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="bars" id="bars" aria-hidden="true"></div>
+      <div class="legend" aria-hidden="true"><span class="k cmp"></span>Comparing<span class="k swap"></span>Swapping / writing<span class="k done"></span>Sorted</div>
+    </div>
+
+    <div class="info">
+      <section class="card">
+        <h2 id="sName">—</h2>
+        <p id="sAbout"></p>
+        <dl class="cx">
+          <div><dt>Best</dt><dd id="cxBest"></dd></div>
+          <div><dt>Average</dt><dd id="cxAvg"></dd></div>
+          <div><dt>Worst</dt><dd id="cxWorst"></dd></div>
+          <div><dt>Space</dt><dd id="cxSpace"></dd></div>
+          <div><dt>Stable</dt><dd id="cxStable"></dd></div>
+        </dl>
+      </section>
+      <section class="card stats" aria-live="polite">
+        <div><span>Comparisons</span><b id="stCmp">0</b></div>
+        <div><span>Swaps / writes</span><b id="stSwap">0</b></div>
+        <div><span>Status</span><b id="stStatus">Ready</b></div>
+      </section>
+    </div>
+  </main>
+
+  <!-- PATHFINDING -->
+  <main id="panel-path" role="tabpanel" aria-labelledby="tab-path" class="panel" hidden>
+    <div class="controls">
+      <label class="ctl"><span>Algorithm</span><select id="pAlgo"></select></label>
+      <div class="ctl"><span>Draw</span>
+        <div class="seg" role="radiogroup" aria-label="Brush">
+          <label><input type="radio" name="brush" value="wall" checked><span>Walls</span></label>
+          <label><input type="radio" name="brush" value="weight"><span>Weights ×5</span></label>
+          <label><input type="radio" name="brush" value="erase"><span>Erase</span></label>
+        </div>
+      </div>
+      <label class="ctl range"><span>Speed</span><input id="pSpeed" type="range" min="1" max="100" value="70"></label>
+      <div class="btns">
+        <button class="btn" id="pMaze" type="button">Maze</button>
+        <button class="btn" id="pClear" type="button">Clear</button>
+        <button class="btn primary" id="pRun" type="button">Find path</button>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="grid" id="grid" role="application" aria-label="Pathfinding grid. Drag to draw walls; drag the start or end square to move it."></div>
+      <div class="legend" aria-hidden="true"><span class="k start"></span>Start<span class="k end"></span>End<span class="k wall"></span>Wall<span class="k weight"></span>Weight<span class="k visit"></span>Visited<span class="k path"></span>Path</div>
+    </div>
+
+    <div class="info">
+      <section class="card">
+        <h2 id="pName">—</h2>
+        <p id="pAbout"></p>
+        <dl class="cx">
+          <div><dt>Weights</dt><dd id="pW"></dd></div>
+          <div><dt>Shortest path</dt><dd id="pS"></dd></div>
+        </dl>
+      </section>
+      <section class="card stats" aria-live="polite">
+        <div><span>Cells visited</span><b id="pVisited">0</b></div>
+        <div><span>Path length</span><b id="pLen">—</b></div>
+        <div><span>Path cost</span><b id="pCost">—</b></div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="foot">Built by <a href="https://github.com/cryoviper" target="_blank" rel="noopener">Praveen Sinwar</a> · Vanilla JS, no libraries · Tip: press <kbd>Space</kbd> to play or pause</footer>
+  <script src="js/app.js" type="module"></script>
+</body>
+</html>
